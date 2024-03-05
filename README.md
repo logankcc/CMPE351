@@ -6,7 +6,7 @@ The code in this repo is related to Group 11 and their progress for completing t
 
 ### Team Memebers
 
-* Nic MacDonald
+* Nic Macdonald
 * Eloise Callaghan
 * Logan Copeland
 * Aidan Kealey
