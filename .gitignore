@@ -1,0 +1,8 @@
+# VSCode
+*.vscode
+
+# Desktop Services Store
+*.DS_Store
+
+# Directories
+__pycache__/
