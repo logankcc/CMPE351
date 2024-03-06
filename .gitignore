@@ -10,6 +10,9 @@ __pycache__/
 # JSON
 *.json
 
+# CSV
+*.csv
+
 # Zip
 *.gz
 *.zip
