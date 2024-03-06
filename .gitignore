@@ -6,3 +6,10 @@
 
 # Directories
 __pycache__/
+
+# JSON
+*.json
+
+# Zip
+*.gz
+*.zip
