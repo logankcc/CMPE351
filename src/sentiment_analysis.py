@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 import torch.nn.functional as F
 import csv
@@ -32,9 +33,16 @@ def process_review(sentence, aspects):
 
     for aspect in aspects:
         probs = get_aspect_sentiment(sentence, aspect)
-        sentiment_score = compute_sentiment_score(probs)
-        review_sentiments[aspect] = sentiment_score
-        print(f"Sentiment score of aspect '{aspect}': {sentiment_score:.2f}")
+        # need to drop attributes that do not have a sentiment confidence score above 70 
+        print(probs)
+        if np.max(probs) > 0.6:
+            sentiment_score = compute_sentiment_score(probs)
+            review_sentiments[aspect] = sentiment_score
+            print(f"Sentiment score of aspect '{aspect}': {sentiment_score:.2f}")
+        else:
+            sentiment_score = None
+            review_sentiments[aspect] = sentiment_score
+            print(f"Confidence of sentiment score of aspect '{aspect}' is to low, do not consider")
 
     return review_sentiments
 
@@ -52,7 +60,7 @@ aspects = ["price", "service", "ambiance", "food"]
 fieldnames = ['star_rating'] + aspects
 
 # Open CSV file in write mode and write headers
-with open('review_sentiments.csv', 'w', newline='') as csv_file:
+with open('data/review_sentiments.csv', 'w', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
 
@@ -72,57 +80,3 @@ with open('review_sentiments.csv', 'w', newline='') as csv_file:
         # Write review data to CSV file
         writer.writerow(review_data)
 
-
-
-
-
-
-
-# import torch
-# import torch.nn.functional as F
-# from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
-
-# # Load models
-# absa_tokenizer = AutoTokenizer.from_pretrained("yangheng/deberta-v3-base-absa-v1.1")
-# absa_model = AutoModelForSequenceClassification.from_pretrained("yangheng/deberta-v3-base-absa-v1.1")
-# sentiment_model_path = "nlptown/bert-base-multilingual-uncased-sentiment"
-# sentiment_model = pipeline("sentiment-analysis", model=sentiment_model_path, tokenizer=sentiment_model_path)
-
-# def get_aspect_sentiment(sentence, aspect):
-#     inputs = absa_tokenizer(f"[CLS] {sentence} [SEP] {aspect} [SEP]", return_tensors="pt")
-#     outputs = absa_model(**inputs)
-#     probs = F.softmax(outputs.logits, dim=1)
-#     return probs.detach().numpy()[0]  # returns the probabilities for negative, neutral, positive
-
-# def compute_scaled_sentiment(probs):
-#     # Define the scale for each sentiment category
-#     scale = {'negative': -100, 'neutral': 0, 'positive': 100}
-#     # Calculate the weighted average sentiment
-#     weighted_sentiment = sum(p * scale[s] for p, s in zip(probs, scale.keys()))
-#     return weighted_sentiment
-
-# def process_review(sentence, aspects):
-#     print(f"\nReview: '{sentence}'")
-#     review_sentiments = {}
-
-#     for aspect in aspects:
-#         probs = get_aspect_sentiment(sentence, aspect)
-#         scaled_sentiment = compute_scaled_sentiment(probs)
-#         review_sentiments[aspect] = scaled_sentiment
-#         print(f"Scaled sentiment of aspect '{aspect}': {scaled_sentiment:.2f}")
-
-#     return review_sentiments
-
-# # Example data
-# reviews = [
-#     "We had a great experience at the restaurant, the food was delicious, but the service was kinda bad",
-#     "Lovely place, although the wait time was too long, the staff were very friendly and the food was excellent",
-#     "Terrible service, but the food was good enough, not the best place for a quick meal though"
-# ]
-# aspects = ["price", "service", "ambiance", "food"]
-
-# # Process each review individually
-# for review in reviews:
-#     review_sentiments = process_review(review, aspects)
-#     # for aspect, sentiment in review_sentiments.items():
-#     #     print(f"Final scaled sentiment for '{aspect}' in this review: {sentiment:.2f}")
