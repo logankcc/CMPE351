@@ -3,8 +3,9 @@ import torch
 import torch.nn.functional as F
 import csv
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
-
-# resultsData = []  
+import dataPrep
+import pandas as pd
+from datetime import datetime
 
 # Load models
 absa_tokenizer = AutoTokenizer.from_pretrained("yangheng/deberta-v3-base-absa-v1.1")
@@ -20,72 +21,68 @@ def get_aspect_sentiment(sentence, aspect):
 
 def compute_sentiment_score(probs):
     # Sentiment weights map
-    sentiment_weights = {'negative': -1, 'neutral': 0, 'positive': 1}
     if (probs[0] < probs[2]):
-        # scorce is more positive -- treat neutral as negative weighting
         output = -1 * probs[0] + -1 * probs[1] + 1 * probs[2]
     elif (probs[0] > probs[2]):
-        # scorce is more negative -- treat neutral as positive weighting
         output = -1 * probs[0] + 1 * probs[1] + 1 * probs[2]
     else:
         output = -1 * probs[0] + 0 * probs[1] + 1 * probs[2]
 
-    # Calculate the sentiment score as a weighted sum
-    # sentiment_score = sum(weight * prob for weight, prob in zip(sentiment_weights.values(), probs))
-    # Optionally scale the result to a different range, e.g., -100 to 100
     scaled_score = 100 * output
     return scaled_score
 
 def process_review(sentence, aspects):
-    print(f"\nReview: '{sentence}'")
     review_sentiments = {}
 
     for aspect in aspects:
         probs = get_aspect_sentiment(sentence, aspect)
-        # need to drop attributes that do not have a sentiment confidence score above 60 
-        print(probs)
         if np.max(probs) > 0.6:
             sentiment_score = compute_sentiment_score(probs)
             review_sentiments[aspect] = sentiment_score
-            print(f"Sentiment score of aspect '{aspect}': {sentiment_score:.2f}")
         else:
             sentiment_score = None
             review_sentiments[aspect] = sentiment_score
-            print(f"Confidence of sentiment score of aspect '{aspect}' is to low, do not consider")
 
     return review_sentiments
 
-# Example data
-reviews = [
-    "We had a great experience at the restaurant, the food was delicious, but the service was kinda bad",
-    "Lovely place, although the wait time was too long, the staff were very friendly and the food was excellent",
-    "Terrible service, but the food was good enough, not the best place for a quick meal though", 
-    "It was a nice place, but the food was only okay", 
-    "It was a nice place, but the food was okay", 
-    "It was a nice place, but the food was horrible"
-]
+def process_row(row, aspects):
+    review_sentiments = process_review(row['user_comment'], aspects)
+    for aspect, sentiment_score in review_sentiments.items():
+        row[aspect] = sentiment_score
+    return row
+
+states = ['New_York', 'California', 'Texas']
+# states = ['Montana']
 aspects = ["price", "service", "ambiance", "food"]
+ratingCSV = ["stars", "price", "service", "ambiance", "food"]
+regionCSV = ["region", "price", "service", "ambiance", "food"]
 
-fieldnames = ['star_rating'] + aspects
+for state in states:
+    print(f'Running {state}')
+    df_data = dataPrep.get_data(state=state)
+    df_data = df_data.head(100)
 
-# Open CSV file in write mode and write headers
-with open('data/review_sentiments.csv', 'w', newline='') as csv_file:
-    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-    writer.writeheader()
+    for column in aspects:
+        df_data[column] = None
 
-    # Write data for each review
-    for review in reviews:
-        review_sentiments = process_review(review, aspects)
-        # star_rating = review['star_rating']
+    print(df_data.shape)
 
-        # Create a dictionary for this review
-        # review_data = {'star_rating': star_rating}
-        review_data = {}
+    df_data = df_data.apply(process_row, aspects=aspects, axis=1)
 
-        # Add aspect scores to the review data
-        for aspect, sentiment_score in review_sentiments.items():
-            review_data[aspect] = sentiment_score
+    # startTime = datetime.now()
 
-        # Write review data to CSV file
-        writer.writerow(review_data)
+    # for idx, record in df_data.iterrows():
+    #     if (idx % 10000 == 0):
+    #         time = str(datetime.now() - startTime).split('.')[0]
+    #         print(f'Index: {idx} -- Time from start: {time}')
 
+    #     review_sentiments = process_review(record['user_comment'], aspects)
+
+    #     for aspect, sentiment_score in review_sentiments.items():
+    #         df_data.at[idx, aspect] = sentiment_score
+
+    print(df_data.head())
+
+    df_data[ratingCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_stars.csv', index=False)
+    df_data[regionCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_geo.csv', index=False)
+    
