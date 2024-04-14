@@ -21,10 +21,19 @@ def get_aspect_sentiment(sentence, aspect):
 def compute_sentiment_score(probs):
     # Sentiment weights map
     sentiment_weights = {'negative': -1, 'neutral': 0, 'positive': 1}
+    if (probs[0] < probs[2]):
+        # scorce is more positive -- treat neutral as negative weighting
+        output = -1 * probs[0] + -1 * probs[1] + 1 * probs[2]
+    elif (probs[0] > probs[2]):
+        # scorce is more negative -- treat neutral as positive weighting
+        output = -1 * probs[0] + 1 * probs[1] + 1 * probs[2]
+    else:
+        output = -1 * probs[0] + 0 * probs[1] + 1 * probs[2]
+
     # Calculate the sentiment score as a weighted sum
-    sentiment_score = sum(weight * prob for weight, prob in zip(sentiment_weights.values(), probs))
+    # sentiment_score = sum(weight * prob for weight, prob in zip(sentiment_weights.values(), probs))
     # Optionally scale the result to a different range, e.g., -100 to 100
-    scaled_score = 100 * sentiment_score
+    scaled_score = 100 * output
     return scaled_score
 
 def process_review(sentence, aspects):
@@ -33,7 +42,7 @@ def process_review(sentence, aspects):
 
     for aspect in aspects:
         probs = get_aspect_sentiment(sentence, aspect)
-        # need to drop attributes that do not have a sentiment confidence score above 70 
+        # need to drop attributes that do not have a sentiment confidence score above 60 
         print(probs)
         if np.max(probs) > 0.6:
             sentiment_score = compute_sentiment_score(probs)
