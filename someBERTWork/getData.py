@@ -1,8 +1,11 @@
 import pandas as pd
 import nltk
+import gensim
 from sklearn.model_selection import train_test_split
+from nltk.stem import WordNetLemmatizer
 
-nltk.download('punkt')
+# nltk.download('punkt')
+nltk.download('wordnet')
 
 def get_data(state):
     print("get_data -- Start")
@@ -17,8 +20,13 @@ def get_data(state):
 
     df_all_data = pd.merge(df_review_data, df_ratings, on='gmap_id', how='inner')
 
+    df_all_data = df_all_data.fillna('')
+    df_all_data = df_all_data[df_all_data['text'] != '']  # drop reviews with no comments
+
     df_bert_data = df_all_data[['gmap_id', 'name_y', 'rating', 'text']].copy()
     df_bert_data = df_bert_data.rename(columns={'name_y': 'business_name', 'rating': 'rating', 'text': 'user_comment'})
+
+    df_bert_data['region'] = f'{state}'
 
     print("get_data -- End")
 
@@ -26,11 +34,20 @@ def get_data(state):
 
 
 # custom tokenize to filter out missing or undefined data from the data files
-def custom_tokenize(text):
+def custom_tokenize1(text):
+    result = []
+
+    for token in gensim.utils.simple_preprocess(text):
+        if token not in gensim.parsing.preprocessing.STOPWORDS:
+            result.append(WordNetLemmatizer().lemmatize(token, pos='v'))
+
+    return result
+
+def custom_tokenize2(text):
     if type(text) != str:
         text = ''
-    return nltk.word_tokenize(text)
 
+    return nltk.word_tokenize(text)
 
 def preprocess(df_data):
     print("preprocess -- Start")
@@ -54,14 +71,14 @@ def preprocess(df_data):
     df_data = df_data.map(lambda s: s.replace('\'', '') if type(s) == str else s)
 
     # tokenize
-    df_data['gmap_id'] = df_data['gmap_id'].apply(custom_tokenize)
-    df_data['business_name'] = df_data['business_name'].apply(custom_tokenize)
-    df_data['rating'] = df_data['rating'].apply(custom_tokenize)
-    df_data['user_comment'] = df_data['user_comment'].apply(custom_tokenize)
+    df_data['gmap_id'] = df_data['gmap_id'].apply(custom_tokenize2)
+    df_data['business_name'] = df_data['business_name'].apply(custom_tokenize2)
+    df_data['rating'] = df_data['rating'].apply(custom_tokenize2)
+    df_data['user_comment'] = df_data['user_comment'].apply(custom_tokenize1)
+    df_data['region'] = df_data['region'].apply(custom_tokenize2)
 
     print("preprocess -- End")
     return df_data
-
 
 
 def preprocess_data(df_Data):
