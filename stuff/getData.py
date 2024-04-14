@@ -9,10 +9,10 @@ nltk.download('wordnet')
 
 def get_data(state):
     print("get_data -- Start")
-    review_file_path = f'data/review-{state}_10.json'
+    review_file_path = f'../data/review-{state}_10.json'
     df_review_data = pd.read_json(review_file_path, lines=True)
 
-    metadata_file_path = f'data/meta-{state}.json'
+    metadata_file_path = f'../data/meta-{state}.json'
     df_ratings = pd.read_json(metadata_file_path, lines=True)
 
     df_ratings = df_ratings[df_ratings['category'].astype(str).str.contains('restaurant', case=False, na=False)]
