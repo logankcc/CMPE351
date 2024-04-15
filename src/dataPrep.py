@@ -19,8 +19,6 @@ def get_data(state):
     df_bert_data = df_all_data[['rating', 'text']].copy()
     df_bert_data = df_bert_data.rename(columns={'rating': 'stars', 'text': 'user_comment'})
 
-    df_bert_data['region'] = f'{state}'
-
     print("get_data -- End")
 
     return df_bert_data

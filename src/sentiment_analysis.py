@@ -1,7 +1,5 @@
 import numpy as np
-import torch
 import torch.nn.functional as F
-import csv
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 import dataPrep
 import pandas as pd
@@ -28,8 +26,8 @@ def compute_sentiment_score(probs):
     else:
         output = -1 * probs[0] + 0 * probs[1] + 1 * probs[2]
 
-    scaled_score = 100 * output
-    return scaled_score
+    # scaled_score = 100 * output
+    return 100 * output
 
 def process_review(sentence, aspects):
     review_sentiments = {}
@@ -60,29 +58,31 @@ regionCSV = ["region", "price", "service", "ambiance", "food"]
 for state in states:
     print(f'Running {state}')
     df_data = dataPrep.get_data(state=state)
-    df_data = df_data.head(100)
-
-    for column in aspects:
-        df_data[column] = None
 
     print(df_data.shape)
 
-    df_data = df_data.apply(process_row, aspects=aspects, axis=1)
+    batch_size = 2500
+    for i in range(0, len(df_data), batch_size):
+        startTime = datetime.now()
+        print(f'Batch: {i} -- start time: {startTime.strftime("%H:%M:%S")}')
+        batch_df = df_data.iloc[i:i+batch_size]
+        for column in aspects:
+            batch_df[column] = None
+        batch_df = batch_df.apply(process_row, aspects=aspects, axis=1)
+        batch_df[ratingCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_stars.csv', mode='a', index=False, header=not i)
+        batch_df['region'] = f'{state}'
+        batch_df[regionCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_geo.csv', mode='a', index=False, header=not i)
+        endTime = datetime.now()
+        deltaTime = endTime - startTime
+        print(f'end time: {endTime.strftime("%H:%M:%S")} \ndeltaTime: {deltaTime.strftime("%H:%M:%S")}')
 
-    # startTime = datetime.now()
 
-    # for idx, record in df_data.iterrows():
-    #     if (idx % 10000 == 0):
-    #         time = str(datetime.now() - startTime).split('.')[0]
-    #         print(f'Index: {idx} -- Time from start: {time}')
+    # df_data = df_data.apply(process_row, aspects=aspects, axis=1)
 
-    #     review_sentiments = process_review(record['user_comment'], aspects)
+    # df_data['region'] = f'{state}'
 
-    #     for aspect, sentiment_score in review_sentiments.items():
-    #         df_data.at[idx, aspect] = sentiment_score
+    # print(df_data.head())
 
-    print(df_data.head())
-
-    df_data[ratingCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_stars.csv', index=False)
-    df_data[regionCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_geo.csv', index=False)
+    # df_data[ratingCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_stars.csv', index=False)
+    # df_data[regionCSV].to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_{state}_geo.csv', index=False)
     
