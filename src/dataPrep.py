@@ -32,12 +32,27 @@ def get_data(state):
 
     return df_bert_data
 
-# state = 'Montana'
-# state = 'New_York'
-# state = 'California'
-# state = 'Texas'
 
-states = ['Montana', 'New_York', 'California', 'Texas']
+def updateCSV(state):
+    review_file_path = f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/processed/review_sentiments_{state}_stars.csv'
+    file_star = pd.read_csv(review_file_path, header=None)
 
-for s in states:
-    get_data(s)
+    file_star = file_star.drop(file_star.columns[1], axis=1)
+    file_star.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_stars.csv', mode='a', index=False, header=False)
+
+    review_file_path2 = f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/processed/review_sentiments_{state}_geo.csv'
+    file_geo = pd.read_csv(review_file_path2, header=None)
+
+    last_column = file_geo.iloc[:, -1]
+    file_geo = file_geo.drop(file_geo.columns[0], axis=1)
+    file_geo = file_geo.drop(file_geo.columns[0], axis=1)
+    file_geo = file_geo.drop(file_geo.columns[-1], axis=1)
+    file_geo.insert(0, 'state', last_column)
+
+    file_geo.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/review_sentiments_geo.csv', mode='a', index=False, header=False)
+
+
+states = ['New_York', 'California', 'Texas']
+
+# for s in states:
+#     updateCSV(s)
