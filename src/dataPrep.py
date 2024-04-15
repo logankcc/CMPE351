@@ -19,6 +19,25 @@ def get_data(state):
     df_bert_data = df_all_data[['rating', 'text']].copy()
     df_bert_data = df_bert_data.rename(columns={'rating': 'stars', 'text': 'user_comment'})
 
+    df_bert_data['stars'] = pd.to_numeric(df_bert_data['stars'], errors='coerce', downcast='integer')
+
+    df_bert_data = df_bert_data.dropna(subset=['stars'])
+    df_bert_data['user_comment'] = df_bert_data['user_comment'].astype(str)
+
+
     print("get_data -- End")
 
+    df_bert_data.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/processed/filtered_data_{state}.csv', mode='a', index=False)
+
+
     return df_bert_data
+
+# state = 'Montana'
+# state = 'New_York'
+# state = 'California'
+# state = 'Texas'
+
+states = ['Montana', 'New_York', 'California', 'Texas']
+
+for s in states:
+    get_data(s)
