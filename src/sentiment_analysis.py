@@ -12,6 +12,7 @@ absa_model = AutoModelForSequenceClassification.from_pretrained("yangheng/debert
 sentiment_model_path = "nlptown/bert-base-multilingual-uncased-sentiment"
 sentiment_model = pipeline("sentiment-analysis", model=sentiment_model_path, tokenizer=sentiment_model_path)
 
+
 def get_aspect_sentiment(sentence, aspect):
     inputs = absa_tokenizer(f"[CLS] {sentence} [SEP] {aspect} [SEP]", return_tensors="pt")
     outputs = absa_model(**inputs)

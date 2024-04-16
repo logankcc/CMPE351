@@ -31,6 +31,7 @@ num_rounds = 100  # Number of boosting rounds
 # Training the model
 bst = xgb.train(params, dtrain, num_rounds)
 
+
 def test():
     # Predicting the test set
     test_predictions = bst.predict(dtest)
