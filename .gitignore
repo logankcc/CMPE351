@@ -12,6 +12,8 @@ __pycache__/
 
 # CSV
 *.csv
+!data/review_sentiments_geo.csv
+!data/review_sentiments_stars.csv
 
 # Zip
 *.gz
