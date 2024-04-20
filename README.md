@@ -1,12 +1,15 @@
-# Group 11 GitHub Repo
+# Advanced Data Analytics Group Project
 
-The code in this repo is related to Group 11 and their progress for completing the course project in CMPE 351
+The repostitory contains all of the code required to replicate the results found in the final report titled "Exploring Factors Influencing Restaurant Ratings: Insights From Google Reviews". Start by downloading the raw [Dataset](https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/) of Google reviews provided by the University of California San Diego.
 
-## Overview
+## RQ1
 
-### Team Memebers
+## RQ2
 
-* Nic Macdonald
+## RQ3
+
+## Group Members
+* Aidan Kealey
 * Eloise Callaghan
 * Logan Copeland
-* Aidan Kealey
+* Nic Macdonald
