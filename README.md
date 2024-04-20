@@ -22,9 +22,23 @@ This project has multiple package dependencies. It assumes that you have Python3
 
 ## RQ1
 
+1. Execute RQ1.py in terminal or within your IDE.
+
 ## RQ2
 
+1. Uncomment lines 147-148 in dataPrep.py, save the file, and then execute the file.
+2. After the above step has completed, execute the sentiment_analysis.py
+3. Next, go back to the dataPrep.py file, and comment out lines 147-148 and uncomment lines 150-151, then execute the file.
+4. The above should create data/review_sentiments_geo.csv
+5. Execute 
+
 ## RQ3
+
+1. Uncomment lines 147-148 in dataPrep.py, save the file, and then execute the file.
+2. After the above step has completed, execute the sentiment_analysis.py
+3. Next, go back to the dataPrep.py file, and comment out lines 147-148 and uncomment lines 150-151, then execute the file.
+4. The above should create data/review_sentiments_stars.csv
+5. Exectue RQ2.py to train & test the model with the review_sentiments_stars.csv data.
 
 ## Group Members
 * Aidan Kealey
