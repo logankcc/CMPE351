@@ -1,12 +1,33 @@
-# Group 11 GitHub Repo
+# Advanced Data Analytics Group Project
 
-The code in this repo is related to Group 11 and their progress for completing the course project in CMPE 351
+This repostitory contains all of the code required to replicate the results found in the final report titled "Exploring Factors Influencing Restaurant Ratings: Insights From Google Reviews". Google reviews from California, New York, and Texas were analyzed. The raw dataset was provided by the University of California San Diego and can be found [here](https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal).
 
-## Overview
+## Data
+Start by cloning the repository. Next, download the Metadata and 10-Core datasets for California, New York, and Texas. Copy the gz files to the directory CMPE351/data.
 
-### Team Memebers
+### California Data
+* Metadata: https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/meta-California.json.gz
+* 10-Core: https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/review-California_10.json.gz
 
-* Nic Macdonald
+### New York Data
+* Metadata: https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/meta-New_York.json.gz
+* 10-Core: https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/review-New_York_10.json.gz
+
+### Texas Data
+* Metadata: https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/meta-Texas.json.gz
+* 10-Core: https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/review-Texas_10.json.gz
+
+## Dependencies
+This project has multiple package dependencies. It assumes that you have Python3 and Pip installed. Use the command `pip install -r requirements.txt` to install the required packages. The file requirements.txt is located in the root of the repository.
+
+## RQ1
+
+## RQ2
+
+## RQ3
+
+## Group Members
+* Aidan Kealey
 * Eloise Callaghan
 * Logan Copeland
-* Aidan Kealey
+* Nic Macdonald

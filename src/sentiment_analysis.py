@@ -27,7 +27,6 @@ def compute_sentiment_score(probs):
     else:
         output = -1 * probs[0] + 0 * probs[1] + 1 * probs[2]
 
-    # scaled_score = 100 * output
     return 100 * output
 
 def process_review(sentence, aspects):
@@ -63,7 +62,6 @@ regionCSV = ["region", "price", "service", "ambiance", "food"]
 
 # for state in states:
 print(f'Running {state}')
-# df_data = dataPrep.get_data(state=state)
 
 review_file_path = f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/processed/filtered_data_{state}.csv'
 chunks = pd.read_csv(review_file_path, chunksize=5000)
@@ -72,16 +70,13 @@ batchnumber = 0
 
 # Process each chunk and write to CSV files
 for chunk in chunks:
-    print(batchnumber)
-    if(batchnumber > 7):
-        startTime = datetime.now()
-        print(f'start -- time: {startTime.strftime("%H:%M:%S")}')
-        processed_chunk = process_review_sentiments(chunk)
-        processed_chunk.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/new/review_sentiments_{state}_stars.csv', mode='a', index=False, header=False)
-        processed_chunk['region'] = state
-        processed_chunk.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/new/review_sentiments_{state}_geo.csv', mode='a', index=False, header=False)
-        endTime = datetime.now()
-        deltaTime = endTime - startTime
-        print(f'end of state\nend time: {endTime.strftime("%H:%M:%S")} \ndeltaTime: {deltaTime}')
-    batchnumber += 1
+    startTime = datetime.now()
+    print(f'start -- time: {startTime.strftime("%H:%M:%S")}')
+    processed_chunk = process_review_sentiments(chunk)
+    processed_chunk.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/new/review_sentiments_{state}_stars.csv', mode='a', index=False, header=False)
+    processed_chunk['region'] = state
+    processed_chunk.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/new/review_sentiments_{state}_geo.csv', mode='a', index=False, header=False)
+    endTime = datetime.now()
+    deltaTime = endTime - startTime
+    print(f'end of state\nend time: {endTime.strftime("%H:%M:%S")} \ndeltaTime: {deltaTime}')
 
