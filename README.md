@@ -28,20 +28,22 @@ The files required for RQ1 are located in the directory CMPE351/src/.
 ## RQ2
 The files required for RQ2 are located in the directory CMPE351/src/.
 
-1. Uncomment lines 147-148 in dataPrep.py, save the file, and then execute the file.
-2. After the above step has completed, execute the sentiment_analysis.py
-3. Next, go back to the dataPrep.py file, and comment out lines 147-148 and uncomment lines 150-151, then execute the file.
-4. The above should create data/review_sentiments_geo.csv
-5. Execute 
+1. Read through the dataPrep.py file and update the paths to the data files on your system.
+2. Uncomment lines 162-163 in dataPrep.py, save the file, and then execute the file.
+3. After the above step has completed, execute the sentiment_analysis.py
+4. Next, go back to the dataPrep.py file, and comment out lines 162-163 and uncomment lines 165-166, then execute the file.
+5. The above should create data/review_sentiments_geo.csv
+6. Execute 
 
 ## RQ3
 The files required for RQ3 are located in the directory CMPE351/src/.
 
-1. Uncomment lines 147-148 in dataPrep.py, save the file, and then execute the file.
-2. After the above step has completed, execute the sentiment_analysis.py
-3. Next, go back to the dataPrep.py file, and comment out lines 147-148 and uncomment lines 150-151, then execute the file.
-4. The above should create data/review_sentiments_stars.csv
-5. Exectue RQ2.py to train & test the model with the review_sentiments_stars.csv data.
+1. Read through the dataPrep.py file and update the paths to the data files on your system.
+2. Uncomment lines 162-163 in dataPrep.py, save the file, and then execute the file.
+3. After the above step has completed, execute the sentiment_analysis.py
+4. Next, go back to the dataPrep.py file, and comment out lines 162-163 and uncomment lines 165-166, then execute the file.
+5. The above should create data/review_sentiments_stars.csv
+6. Exectue RQ2.py to train & test the model with the review_sentiments_stars.csv data.
 
 ## Group Members
 * Aidan Kealey
