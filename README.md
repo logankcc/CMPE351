@@ -23,25 +23,25 @@ This project has multiple package dependencies. It assumes that you have Python3
 ## RQ1
 The files required for RQ1 are located in the directory CMPE351/src/.
 
-1. Read through RQ1.ipynb and update the file path locations to match your system.
-2. Run all cells in RQ1.ipynb top down.
+1. Read through RQ1.ipynb and update the file path locations to match your system
+2. Run all cells in RQ1.ipynb top down
 
 ## RQ2
 The files required for RQ2 are located in the directory CMPE351/src/.
 
-1. Read through the dataPrep.py file and update the paths to the data files on your system.
-2. Uncomment lines 162-163 in dataPrep.py, save the file, and then execute the file.
+1. Read through the dataPrep.py file and update the paths to the data files on your system
+2. Uncomment lines 162-163 in dataPrep.py, save the file, and then execute the file
 3. After the above step has completed, execute the sentiment_analysis.py
-4. Next, go back to the dataPrep.py file, and comment out lines 162-163 and uncomment lines 165-166, then execute the file.
+4. Next, go back to the dataPrep.py file, and comment out lines 162-163 and uncomment lines 165-166, then execute the file
 5. The above should create data/review_sentiments_geo.csv
-6. Execute 
+6. Run all cells in view_rq2_data.ipynb top down
 
 ## RQ3
 The files required for RQ3 are located in the directory CMPE351/src/.
 
-1. After exectuing RQ2, open rq3_rand_forest_prediction.py and rq3_xgboost_prediction.py.
-2. Exectue both scripts.
-3. after execution, open view_rq3_data.ipynb and execute this notebook.
+1. After exectuing RQ2, open rq3_rand_forest_prediction.py and rq3_xgboost_prediction.py
+2. Exectue both scripts
+3. After execution, open view_rq3_data.ipynb, and execute this notebook
 
 ## Group Members
 * Aidan Kealey
