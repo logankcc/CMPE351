@@ -3,7 +3,7 @@
 This repostitory contains all of the code required to replicate the results found in the final report titled "Exploring Factors Influencing Restaurant Ratings: Insights From Google Reviews". Reviews from California, New York, and Texas were analyzed. The raw dataset was provided by the University of California San Diego and can be found [here](https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal).
 
 ## Data
-Start by cloning the repository. Next, download the Metadata and 10-Core datasets for California, New York, and Texas. Copy the gz files to the directory CMPE351/data.
+Start by cloning the repository. Next, download the Metadata and 10-Core datasets for California, New York, and Texas. Copy the gz files to the directory CMPE351/data/.
 
 ### California Data
 * Metadata: https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal/meta-California.json.gz
@@ -21,10 +21,12 @@ Start by cloning the repository. Next, download the Metadata and 10-Core dataset
 This project has multiple package dependencies. It assumes that you have Python3 and Pip installed. Use the command `pip install -r requirements.txt` to install the required packages. The file requirements.txt is located in the root of the repository.
 
 ## RQ1
+The files required for RQ1 are located in the directory CMPE351/src/.
 
-1. Execute RQ1.ipynb in within your jupyter notebook top down.
+1. Run all cells in RQ1.ipynb top down.
 
 ## RQ2
+The files required for RQ2 are located in the directory CMPE351/src/.
 
 1. Uncomment lines 147-148 in dataPrep.py, save the file, and then execute the file.
 2. After the above step has completed, execute the sentiment_analysis.py
@@ -33,6 +35,7 @@ This project has multiple package dependencies. It assumes that you have Python3
 5. Execute 
 
 ## RQ3
+The files required for RQ3 are located in the directory CMPE351/src/.
 
 1. Uncomment lines 147-148 in dataPrep.py, save the file, and then execute the file.
 2. After the above step has completed, execute the sentiment_analysis.py
