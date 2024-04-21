@@ -22,7 +22,7 @@ This project has multiple package dependencies. It assumes that you have Python3
 
 ## RQ1
 
-1. Execute RQ1.py in terminal or within your IDE.
+1. Execute RQ1.ipynb in within your jupyter notebook top down.
 
 ## RQ2
 
