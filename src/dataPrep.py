@@ -117,13 +117,13 @@ def exploreData(state):
 
     del picture_data_frame
 
-    df_all_data = df_all_data[['rating', 'text']].copy()
+    df_data_commets = df_all_data[['rating', 'text']].copy()
     
-    df_all_data = df_all_data.fillna('')
-    recordsComment = len(df_all_data['text'])
+    df_data_commets = df_data_commets.fillna('')
+    recordsComment = len(df_data_commets['text'])
     print(f'number commets (including NaN): {recordsComment}')
-    df_all_data = df_all_data[df_all_data['text'] != '']
-    recordsWithComment = len(df_all_data['text'])
+    df_data_commets = df_data_commets[df_data_commets['text'] != '']
+    recordsWithComment = len(df_data_commets['text'])
     print(f'number of commets (without NaN): {recordsWithComment}')
     recordsWithoutComment = recordsComment - recordsWithComment
     print(f'number of NaN commets: {recordsWithoutComment}')
@@ -253,5 +253,5 @@ states = ['California', 'Texas', 'New_York']
 # df = pd.DataFrame(data)
 # print(df)
 
-# df.to_csv(f'../data/explore/data.csv', index=False)
+# df.to_csv(f'/Users/aidankealey/Documents/fifth_year/CMPE_351/Project/CMPE351/data/explore/datav2.csv', index=False)
 
